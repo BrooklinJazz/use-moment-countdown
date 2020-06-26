@@ -13,7 +13,7 @@ npm install --save moment
 ## Install use-countdown
 
 ```bash
-npm install --save use-countdown
+npm install --save use-moment-countdown
 ```
 
 ## Usage with minutes
@@ -21,7 +21,7 @@ npm install --save use-countdown
 ```tsx
 import React from 'react'
 
-import  {useCountdown} from 'use-countdown'
+import  { useCountdown } from 'use-moment-countdown'
 
 const App = () => {
   const {start, time} = useCountdown({m: 10})
@@ -41,7 +41,7 @@ export default App
 ```tsx
 import React from 'react'
 
-import  {useCountdown} from 'use-countdown'
+import  { useCountdown } from 'use-moment-countdown'
 
 const App = () => {
   const {start, time} = useCountdown({h: 1})
@@ -61,7 +61,7 @@ export default App
 ```tsx
 import React from 'react'
 
-import  {useCountdown} from 'use-countdown'
+import  { useCountdown } from 'use-moment-countdown'
 
 const App = () => {
   const {start, time} = useCountdown({s: 30})
@@ -81,7 +81,7 @@ export default App
 ```tsx
 import React from 'react'
 
-import  {useCountdown} from 'use-countdown'
+import  { useCountdown } from 'use-moment-countdown'
 
 const App = () => {
   const {start, time} = useCountdown({h:1, m: 20, s: 30})
@@ -101,7 +101,7 @@ export default App
 ```tsx
 import React from 'react'
 
-import  {useCountdown} from 'use-countdown'
+import  { useCountdown } from 'use-moment-countdown'
 
 const App = () => {
   const {start, time} = useCountdown({}) // this will throw an error

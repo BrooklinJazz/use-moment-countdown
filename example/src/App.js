@@ -1,6 +1,6 @@
 import React from 'react'
 
-import  {useCountdown} from 'use-countdown'
+import  {useCountdown} from 'use-moment-countdown'
 
 const App = () => {
   const {start, time} = useCountdown({m: 1})
