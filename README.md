@@ -1,5 +1,7 @@
 # useCountdown
 
+check out my explanatory blog post [here](https://medium.com/@brooklinjazzmyers/create-a-custom-hook-for-managing-timers-in-react-or-react-native-92362241ae43)
+
 > a react hook for creating countdown timers with moment.js
 
 [![NPM](https://img.shields.io/npm/v/use-moment-countdown.svg)](https://www.npmjs.com/package/use-moment-countdown) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
