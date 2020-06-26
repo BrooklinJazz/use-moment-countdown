@@ -1,2 +1,0 @@
-(this["webpackJsonpuse-moment-countdown"]=this["webpackJsonpuse-moment-countdown"]||[]).push([[0],{10:function(e,t,n){"use strict";n.r(t);var o=n(0),c=n.n(o),s=n(1),i=n.n(s);n(9);var r=()=>c.a.createElement("div",{style:{height:"100vh",width:"100vw",display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}},"test");i.a.render(c.a.createElement(r,null),document.getElementById("root"))},2:function(e,t,n){e.exports=n(10)},9:function(e,t,n){}},[[2,1,2]]]);
-//# sourceMappingURL=main.66b4b142.chunk.js.map
