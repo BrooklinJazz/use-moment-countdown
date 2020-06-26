@@ -1,7 +1,7 @@
 import * as React from "react";
 import moment from "moment";
 
-function useInterval(callback: () => any, delay: number = 1000) {
+const useInterval = (callback: () => any, delay: number = 1000) => {
   const savedCallback = React.useRef<() => any>(() => true);
 
   // Remember the latest callback.
