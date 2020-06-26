@@ -2,7 +2,7 @@
 
 > a react hook for creating countdown timers with moment.js
 
-[![NPM](https://img.shields.io/npm/v/use-countdown.svg)](https://www.npmjs.com/package/use-countdown) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/use-moment-countdown.svg)](https://www.npmjs.com/package/use-moment-countdown) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install dependencies
 
@@ -10,7 +10,7 @@
 npm install --save moment
 ```
 
-## Install use-countdown
+## Install use-moment-countdown
 
 ```bash
 npm install --save use-moment-countdown

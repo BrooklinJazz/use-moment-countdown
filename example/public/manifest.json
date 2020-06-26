@@ -1,6 +1,6 @@
 {
-  "short_name": "use-countdown",
-  "name": "use-countdown",
+  "short_name": "use-moment-countdown",
+  "name": "use-moment-countdown",
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",
