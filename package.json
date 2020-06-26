@@ -1,6 +1,6 @@
 {
   "name": "use-moment-countdown",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a react hook for creating countdown timers with moment.js",
   "author": "BrooklinJazz",
   "license": "MIT",
