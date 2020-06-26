@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { useMyHook } from 'use-countdown'
+import  {useCountdown} from 'use-countdown'
 
 const App = () => {
-  const example = useMyHook()
+  const {start, time} = useCountdown({m: 1})
   return (
-    <div>
-      {example}
+    <div onClick={start}>
+      {time.format("mm:ss")}
     </div>
   )
 }
