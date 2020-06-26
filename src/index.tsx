@@ -23,7 +23,7 @@ export const useCountdown = (input: { m?: number; s?: number; h?: number }) => {
   const { m = 0, s = 0, h = 0 } = input;
   if (!m && !s && !h) {
     throw Error(
-      `useCountdown use be provided an input. you provided: ${input}`
+      `useCountdown must be provided an input. you provided: ${input}`
     );
   }
   const intervalInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
