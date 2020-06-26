@@ -1,30 +1,119 @@
-# use-countdown
+# useCountdown
 
 > a react hook for creating countdown timers with moment.js
 
 [![NPM](https://img.shields.io/npm/v/use-countdown.svg)](https://www.npmjs.com/package/use-countdown) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-## Install
+## Install dependencies
+
+```bash
+npm install --save moment
+```
+
+## Install use-countdown
 
 ```bash
 npm install --save use-countdown
 ```
 
-## Usage
+## Usage with minutes
 
 ```tsx
-import * as React from 'react'
+import React from 'react'
 
-import { useMyHook } from 'use-countdown'
+import  {useCountdown} from 'use-countdown'
 
-const Example = () => {
-  const example = useMyHook()
+const App = () => {
+  const {start, time} = useCountdown({m: 10})
   return (
-    <div>
-      {example}
+    <div onClick={start}>
+      {time.format("hh:mm:ss")}
     </div>
   )
 }
+
+export default App
+
+```
+
+## Usage with hours
+
+```tsx
+import React from 'react'
+
+import  {useCountdown} from 'use-countdown'
+
+const App = () => {
+  const {start, time} = useCountdown({h: 1})
+  return (
+    <div onClick={start}>
+      {time.format("hh:mm:ss")}
+    </div>
+  )
+}
+
+export default App
+
+```
+
+## Usage with seconds
+
+```tsx
+import React from 'react'
+
+import  {useCountdown} from 'use-countdown'
+
+const App = () => {
+  const {start, time} = useCountdown({s: 30})
+  return (
+    <div onClick={start}>
+      {time.format("hh:mm:ss")}
+    </div>
+  )
+}
+
+export default App
+
+```
+
+## Usage with combination of hours, minutes, and seconds
+
+```tsx
+import React from 'react'
+
+import  {useCountdown} from 'use-countdown'
+
+const App = () => {
+  const {start, time} = useCountdown({h:1, m: 20, s: 30})
+  return (
+    <div onClick={start}>
+      {time.format("hh:mm:ss")}
+    </div>
+  )
+}
+
+export default App
+
+```
+
+## You must provide an input
+
+```tsx
+import React from 'react'
+
+import  {useCountdown} from 'use-countdown'
+
+const App = () => {
+  const {start, time} = useCountdown({}) // this will throw an error
+  return (
+    <div onClick={start}>
+      {time.format("hh:mm:ss")}
+    </div>
+  )
+}
+
+export default App
+
 ```
 
 ## License
