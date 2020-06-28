@@ -1,6 +1,5 @@
 import { renderHook, act } from "@testing-library/react-hooks";
-import { useCountdown, CountdownConfig, CountdownInput } from "./";
-import React from "react";
+import { useCountdown } from "./";
 
 describe("useCountdown _ initial time", () => {
   test("time _ no input", () => {
