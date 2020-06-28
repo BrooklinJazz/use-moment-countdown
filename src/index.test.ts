@@ -39,7 +39,6 @@ describe("useCountdown _ initial time", () => {
   });
 });
 
-
 describe("useCountdown _ timer", () => {
   jest.useFakeTimers();
   test("timer _ 1 minute _ after 1 second", () => {
@@ -76,5 +75,18 @@ describe("useCountdown _ timer", () => {
       jest.advanceTimersByTime(1001);
     })
     expect(fakeFn).toHaveBeenCalledTimes(1)
+  });
+
+  test("timer _ recuring timer _ 1 s", () => {
+    const fakeFn = jest.fn()
+    const { result} = renderHook(() => useCountdown({s: 1}, {onDone: fakeFn, recuring: true}))
+    act(() => {
+      result.current.start()
+      jest.advanceTimersByTime(1000);
+      expect(result.current.time.seconds()).toBe(0)
+      jest.advanceTimersByTime(1000);
+      expect(result.current.time.seconds()).toBe(1)
+    })
+    // expect(fakeFn).toHaveBeenCalledTimes(1)
   });
 });

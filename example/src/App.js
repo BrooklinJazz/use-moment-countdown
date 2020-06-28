@@ -3,7 +3,7 @@ import React from "react";
 import { useCountdown } from "use-moment-countdown";
 
 const App = () => {
-  const { start, time, stop } = useCountdown({ s: 10 }, {onDone: () => alert("You can pass an onDone function like this!")});
+  const { start, time, stop } = useCountdown({ s: 1 }, {recuring: true, onDone: () => console.warn("You can pass an onDone function like this!")});
   return (
     <div
       style={{

@@ -20,15 +20,14 @@ const useInterval = (callback: () => any, delay: number = 1000) => {
 };
 
 export type CountdownInput = { m?: number; s?: number; h?: number } | undefined;
-export type CountdownConfig = { onDone: () => any }
-
+export type CountdownConfig = { onDone?: () => any; recuring?: boolean };
 
 export const useCountdown = (
   input: CountdownInput = {},
-  config: CountdownConfig  = { onDone: () => true }
+  config: CountdownConfig = {}
 ) => {
   const { m = 0, s = 0, h = 0 } = input;
-  const { onDone } = config;
+  const { onDone = () => true, recuring = false } = config;
   const intervalInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
   const [count, setCount] = React.useState(0);
   const diff = intervalInMs - count;
@@ -36,20 +35,33 @@ export const useCountdown = (
   const remainingMilliseconds = remainingDuration.asMilliseconds();
 
   const [started, setStarted] = React.useState(false);
-
-  if (started && remainingMilliseconds === 0) {
+  if (started && remainingMilliseconds === 0 && recuring) {
+    // callOnDone after a single tick to avoid running before the
+    // time renders
+    const timeout = setTimeout(() => {
+      onDone();
+      clearTimeout(timeout);
+    }, 1);
+    const reset = setTimeout(() => {
+      setCount(0)
+      clearTimeout(reset);
+    }, 1000);
+  } else if (started && remainingMilliseconds === 0) {
     // callOnDone after a single tick to avoid running before the
     // time renders
     const timeout = setTimeout(() => {
       setStarted(false);
       onDone();
-      clearTimeout(timeout)
-    }, 1)
+      clearTimeout(timeout);
+    }, 1);
   }
 
   useInterval(
     () => {
       if (started && remainingMilliseconds !== 0) {
+        setCount(count + 1000);
+      }
+      if (recuring && remainingMilliseconds === 0) {
         setCount(count + 1000);
       }
     },
