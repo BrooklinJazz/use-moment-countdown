@@ -18,104 +18,97 @@ npm install --save moment
 npm install --save use-moment-countdown
 ```
 
-## Usage with minutes
+# Usage
+
+## timer set in minutes
 
 ```tsx
-import React from 'react'
+import React from "react";
 
-import  { useCountdown } from 'use-moment-countdown'
+import { useCountdown } from "use-moment-countdown";
 
 const App = () => {
-  const {start, time} = useCountdown({m: 10})
-  return (
-    <div onClick={start}>
-      {time.format("hh:mm:ss")}
-    </div>
-  )
-}
+  const { start, time } = useCountdown({ m: 10 });
+  return <div onClick={start}>{time.format("hh:mm:ss")}</div>;
+};
 
-export default App
-
+export default App;
 ```
 
-## Usage with hours
+## timer set in hours
 
 ```tsx
-import React from 'react'
+import React from "react";
 
-import  { useCountdown } from 'use-moment-countdown'
+import { useCountdown } from "use-moment-countdown";
 
 const App = () => {
-  const {start, time} = useCountdown({h: 1})
-  return (
-    <div onClick={start}>
-      {time.format("hh:mm:ss")}
-    </div>
-  )
-}
+  const { start, time } = useCountdown({ h: 1 });
+  return <div onClick={start}>{time.format("hh:mm:ss")}</div>;
+};
 
-export default App
-
+export default App;
 ```
 
-## Usage with seconds
+## timer set in seconds
 
 ```tsx
-import React from 'react'
+import React from "react";
 
-import  { useCountdown } from 'use-moment-countdown'
+import { useCountdown } from "use-moment-countdown";
 
 const App = () => {
-  const {start, time} = useCountdown({s: 30})
-  return (
-    <div onClick={start}>
-      {time.format("hh:mm:ss")}
-    </div>
-  )
-}
+  const { start, time } = useCountdown({ s: 30 });
+  return <div onClick={start}>{time.format("hh:mm:ss")}</div>;
+};
 
-export default App
-
+export default App;
 ```
 
-## Usage with combination of hours, minutes, and seconds
+## timer set in combination of hours, minutes, and seconds
 
 ```tsx
-import React from 'react'
+import React from "react";
 
-import  { useCountdown } from 'use-moment-countdown'
+import { useCountdown } from "use-moment-countdown";
 
 const App = () => {
-  const {start, time} = useCountdown({h:1, m: 20, s: 30})
-  return (
-    <div onClick={start}>
-      {time.format("hh:mm:ss")}
-    </div>
-  )
-}
+  const { start, time } = useCountdown({ h: 1, m: 20, s: 30 });
+  return <div onClick={start}>{time.format("hh:mm:ss")}</div>;
+};
 
-export default App
-
+export default App;
 ```
 
-## You must provide an input
+## recuring timer
 
 ```tsx
-import React from 'react'
+import React from "react";
 
-import  { useCountdown } from 'use-moment-countdown'
+import { useCountdown } from "use-moment-countdown";
 
 const App = () => {
-  const {start, time} = useCountdown({}) // this will throw an error
-  return (
-    <div onClick={start}>
-      {time.format("hh:mm:ss")}
-    </div>
-  )
-}
+  const { start, time } = useCountdown({ s: 30 }, {recuring: true});
+  return <div onClick={start}>{time.format("hh:mm:ss")}</div>;
+};
 
-export default App
+export default App;
+```
 
+## onDone callback when timer ends
+
+```tsx
+import React from "react";
+
+import { useCountdown } from "use-moment-countdown";
+
+const App = () => {
+  const myOnDoneCallback = () => alert("Your timer has finished!")
+  const { start, time } = useCountdown({ s: 30 }, {onDone: myOnDoneCallback});
+  return <div onClick={start}>{time.format("hh:mm:ss")}</div>;
+};
+
+export default App;
 ```
 
 ## License
