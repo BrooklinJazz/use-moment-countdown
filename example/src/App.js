@@ -3,7 +3,7 @@ import React from "react";
 import { useCountdown } from "use-moment-countdown";
 
 const App = () => {
-  const { start, time } = useCountdown({ m: 1 });
+  const { start, time, stop } = useCountdown({ m: 1 });
   return (
     <div
       style={{
@@ -17,6 +17,7 @@ const App = () => {
     >
       {time.format("mm:ss")}
       <button style={{marginTop: 20}} onClick={start}>Start</button>
+      <button style={{marginTop: 20}} onClick={stop}>Stop</button>
     </div>
   );
 };
