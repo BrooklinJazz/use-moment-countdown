@@ -40,9 +40,22 @@ export const useCountdown = (
 
   const [count, setCount] = React.useState(0);
   const [started, setStarted] = React.useState(false);
+  const [paused, setPaused] = React.useState(false)
 
-  const start = () => setStarted(true);
-  const stop = () => setStarted(false);
+  const start = React.useCallback(() => {
+    setPaused(false)
+    setStarted(true)
+  }, [])
+  
+  const stop = React.useCallback(() => {
+    setPaused(true)
+    setStarted(false)
+  }, [])
+
+  const reset = React.useCallback(() => {
+    setPaused(false)
+    setCount(0)
+  }, [])
 
   const intervalInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
   const diff = intervalInMs - count;
@@ -70,7 +83,7 @@ export const useCountdown = (
         setCount(count + 1000);
       }
       if (shouldReset) {
-        setCount(0);
+        reset();
       }
     },
     started ? 1000 : undefined
@@ -81,5 +94,7 @@ export const useCountdown = (
     start,
     stop,
     started,
+    paused,
+    reset
   };
 };

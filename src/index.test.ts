@@ -90,4 +90,23 @@ describe("useCountdown _ timer", () => {
       expect(result.current.time.seconds()).toBe(1)
     })
   });
+
+  xtest("timer _ pause _ unpause _ pause _ reset", () => {
+    jest.useRealTimers()
+    const { result} = renderHook(() => useCountdown({s: 10}))
+    act(() => {
+      // NOTE testing internal state is not working for unknown reason
+      expect(result.current.paused).toBeFalsy()
+      result.current.start()
+      expect(result.current.paused).toBeTruthy()
+      // result.current.stop()
+      // expect(result.current.paused).toBeTruthy()
+      // result.current.start()
+      // expect(result.current.paused).toBeFalsy()
+      // result.current.stop()
+      // expect(result.current.paused).toBeTruthy()
+      // result.current.reset()
+      // expect(result.current.paused).toBeFalsy()
+    })
+  });
 });
