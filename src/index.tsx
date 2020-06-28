@@ -19,11 +19,13 @@ const useInterval = (callback: () => any, delay: number = 1000) => {
   }, [delay]);
 };
 
-type CountdownInput = { m?: number; s?: number; h?: number } | undefined;
+export type CountdownInput = { m?: number; s?: number; h?: number } | undefined;
+export type CountdownConfig = { onDone: () => any }
+
 
 export const useCountdown = (
   input: CountdownInput = {},
-  config: { onDone: () => any } = { onDone: () => true }
+  config: CountdownConfig  = { onDone: () => true }
 ) => {
   const { m = 0, s = 0, h = 0 } = input;
   const { onDone } = config;
@@ -35,17 +37,19 @@ export const useCountdown = (
 
   const [started, setStarted] = React.useState(false);
 
+
+  if (started && remainingMilliseconds === 0) {
+    setStarted(false);
+    onDone();
+  }
+
   useInterval(
     () => {
       if (started && remainingMilliseconds !== 0) {
         setCount(count + 1000);
       }
-      if (started && remainingMilliseconds === 0) {
-        setStarted(false);
-        onDone();
-      }
     },
-    started ? intervalInMs : undefined
+    started ? 1000 : undefined
   );
 
   return {
