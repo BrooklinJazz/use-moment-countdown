@@ -111,10 +111,6 @@ const App = () => {
 export default App;
 ```
 
-## License
-
-MIT © [BrooklinJazz](https://github.com/BrooklinJazz)
-
 ---
 
 This hook is created using [create-react-hook](https://github.com/hermanya/create-react-hook).
