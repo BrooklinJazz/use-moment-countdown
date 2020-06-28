@@ -21,11 +21,6 @@ const useInterval = (callback: () => any, delay: number = 1000) => {
 
 export const useCountdown = (input: { m?: number; s?: number; h?: number }) => {
   const { m = 0, s = 0, h = 0 } = input;
-  if (!m && !s && !h) {
-    throw Error(
-      `useCountdown must be provided an input. you provided: ${input}`
-    );
-  }
   const intervalInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
   const [count, setCount] = React.useState(0);
   const diff = intervalInMs - count;
