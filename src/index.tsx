@@ -40,5 +40,6 @@ export const useCountdown = (input: { m?: number; s?: number; h?: number }) => {
     time: moment.utc(remainingMilliseconds),
     start: () => setStart(true),
     stop: () => setStart(false),
+    started
   };
 };
