@@ -73,7 +73,7 @@ describe("useCountdown _ timer", () => {
     const { result} = renderHook(() => useCountdown({s: 1}, {onDone: fakeFn}))
     act(() => {
       result.current.start()
-      jest.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(1001);
     })
     expect(fakeFn).toHaveBeenCalledTimes(1)
   });

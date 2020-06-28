@@ -37,10 +37,14 @@ export const useCountdown = (
 
   const [started, setStarted] = React.useState(false);
 
-
   if (started && remainingMilliseconds === 0) {
-    setStarted(false);
-    onDone();
+    // callOnDone after a single tick to avoid running before the
+    // time renders
+    const timeout = setTimeout(() => {
+      setStarted(false);
+      onDone();
+      clearTimeout(timeout)
+    }, 1)
   }
 
   useInterval(
