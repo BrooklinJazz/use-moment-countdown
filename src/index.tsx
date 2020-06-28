@@ -22,47 +22,55 @@ const useInterval = (callback: () => any, delay: number = 1000) => {
 export type CountdownInput = { m?: number; s?: number; h?: number } | undefined;
 export type CountdownConfig = { onDone?: () => any; recuring?: boolean };
 
+// doAfterRender to avoid triggering callback such as alert and halting
+// the ui-thread before time hits 0
+const doAfterRender = (callback: () => any) => {
+  const timeout = setTimeout(() => {
+    callback();
+    clearTimeout(timeout);
+  }, 1);
+};
+
 export const useCountdown = (
   input: CountdownInput = {},
   config: CountdownConfig = {}
 ) => {
   const { m = 0, s = 0, h = 0 } = input;
   const { onDone = () => true, recuring = false } = config;
-  const intervalInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
+
   const [count, setCount] = React.useState(0);
+  const [started, setStarted] = React.useState(false);
+
+  const start = () => setStarted(true);
+  const stop = () => setStarted(false);
+
+  const intervalInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
   const diff = intervalInMs - count;
+
   const remainingDuration = moment.duration(diff, "milliseconds");
   const remainingMilliseconds = remainingDuration.asMilliseconds();
 
-  const [started, setStarted] = React.useState(false);
-  if (started && remainingMilliseconds === 0 && recuring) {
-    // callOnDone after a single tick to avoid running before the
-    // time renders
-    const timeout = setTimeout(() => {
+  const shouldReset = started && remainingMilliseconds === 0 && recuring;
+  const isDone = started && remainingMilliseconds === 0;
+
+  if (shouldReset) {
+    doAfterRender(() => {
       onDone();
-      clearTimeout(timeout);
-    }, 1);
-    const reset = setTimeout(() => {
-      setCount(0)
-      clearTimeout(reset);
-    }, 1000);
-  } else if (started && remainingMilliseconds === 0) {
-    // callOnDone after a single tick to avoid running before the
-    // time renders
-    const timeout = setTimeout(() => {
-      setStarted(false);
+    });
+  } else if (isDone) {
+    doAfterRender(() => {
+      stop();
       onDone();
-      clearTimeout(timeout);
-    }, 1);
+    });
   }
 
   useInterval(
     () => {
-      if (started && remainingMilliseconds !== 0) {
+      if (started && !isDone) {
         setCount(count + 1000);
       }
-      if (recuring && remainingMilliseconds === 0) {
-        setCount(count + 1000);
+      if (shouldReset) {
+        setCount(0);
       }
     },
     started ? 1000 : undefined
@@ -70,8 +78,8 @@ export const useCountdown = (
 
   return {
     time: moment.utc(remainingMilliseconds),
-    start: () => setStarted(true),
-    stop: () => setStarted(false),
+    start,
+    stop,
     started,
   };
 };
