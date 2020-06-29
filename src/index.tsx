@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
+// @ts-expect-error
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import moment, { Moment } from "moment";
 import { useInterval } from "./useInterval";
-import { CountdownInput, CountdownConfig, CountdownReturnValues } from "./types";
+import {
+  CountdownInput,
+  CountdownConfig,
+  CountdownReturnValues,
+} from "./types";
 
 export const useCountdown = (
   input: CountdownInput = {},
@@ -13,8 +18,8 @@ export const useCountdown = (
   const timerDurationInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
 
   // timers are tied to re-render unfortunately in react native.
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
   useInterval(() => forceUpdate(), 1000);
 
   const [started, setStarted] = useState(false);
@@ -24,13 +29,24 @@ export const useCountdown = (
 
   const remainingDurationInMs = endTime && Math.max(endTime.diff(moment()), 0);
 
+  const pausedRemainingDurationInMs = useRef<number | undefined>(
+    timerDurationInMs
+  );
+
+  const startOrUnpause = () => started && paused ? unPause() : start()
+
   const start = () => {
     setStarted(true);
-    setPaused(false);
     setEndTime(moment().add(timerDurationInMs, "milliseconds"));
   };
+
+  const unPause = () => {
+    setPaused(false)
+    setEndTime(moment().add(pausedRemainingDurationInMs.current, "milliseconds"))
+  }
+
   const stop = () => {
-    setStarted(false);
+    pausedRemainingDurationInMs.current = remainingDurationInMs;
     setPaused(true);
   };
   const reset = () => {
@@ -47,13 +63,19 @@ export const useCountdown = (
     }
   }, [remainingDurationInMs]);
 
-  const time = started
-    ? moment.utc(remainingDurationInMs)
-    : moment.utc(timerDurationInMs);
+  const time = () => {
+    if (started && paused && pausedRemainingDurationInMs.current) {
+      return moment.utc(pausedRemainingDurationInMs.current);
+    } else if (started) {
+      return moment.utc(remainingDurationInMs);
+    } else {
+      return moment.utc(timerDurationInMs);
+    }
+  };
 
   return {
-    time,
-    start,
+    time: time(),
+    start: startOrUnpause,
     stop,
     started,
     paused,
