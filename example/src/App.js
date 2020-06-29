@@ -21,7 +21,7 @@ const RecuringTimer = () => {
   const { start, time, stop } = useCountdown(
     { s: 10 },
     {
-      recuring: true,
+      recurring: true,
       onDone: () => console.warn("You can pass an onDone function like this!"),
     }
   );

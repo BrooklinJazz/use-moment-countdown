@@ -1,98 +1,66 @@
-import * as React from "react";
-import moment from "moment";
+import React, { useState, useEffect } from "react";
 
-const useInterval = (callback: () => any, delay: number = 1000) => {
-  const savedCallback = React.useRef<() => any>(() => true);
-
-  // Remember the latest callback.
-  React.useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  // Set up the interval.
-  React.useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    let id = setInterval(tick, delay);
-    return () => clearInterval(id);
-  }, [delay]);
-};
+import moment, { Moment } from "moment";
+import { useInterval } from "./useInterval";
 
 export type CountdownInput = { m?: number; s?: number; h?: number } | undefined;
-export type CountdownConfig = { onDone?: () => any; recuring?: boolean };
-
-// doAfterRender to avoid triggering callback such as alert and halting
-// the ui-thread before time hits 0
-const doAfterRender = (callback: () => any) => {
-  const timeout = setTimeout(() => {
-    callback();
-    clearTimeout(timeout);
-  }, 1);
-};
+export type CountdownConfig = { onDone?: () => any; recurring?: boolean };
 
 export const useCountdown = (
   input: CountdownInput = {},
   config: CountdownConfig = {}
 ) => {
   const { m = 0, s = 0, h = 0 } = input;
-  const { onDone = () => true, recuring = false } = config;
-  const [count, setCount] = React.useState(0);
-  const [started, setStarted] = React.useState(false);
-  const [paused, setPaused] = React.useState(false);
+  const { onDone = () => true, recurring } = config;
+  const timerDurationInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
+  // timers are tied to re-render unfortunately in react native.
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+  useInterval(() => forceUpdate(), 1000);
 
-  const start = React.useCallback(() => {
-    setPaused(false);
+  const [started, setStarted] = useState(false);
+  const [paused, setPaused] = useState(false);
+  // const [isDone, setIsDone] = useState(false);
+
+  const [endTime, setEndTime] = useState<Moment>();
+
+  const remainingDurationInMs = endTime && Math.max(endTime.diff(moment()), 0);
+
+  const start = () => {
     setStarted(true);
-  }, []);
-
-  const stop = React.useCallback(() => {
-    setPaused(true);
-    setStarted(false);
-  }, []);
-
-  const reset = React.useCallback(() => {
     setPaused(false);
-    setCount(0);
-  }, []);
+    setEndTime(moment().add(timerDurationInMs, "milliseconds"));
+  };
 
-  const intervalInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
-  const diff = intervalInMs - count;
+  const stop = () => {
+    setStarted(false);
+    setPaused(true);
+  };
 
-  const remainingDuration = moment.duration(diff, "milliseconds");
-  const remainingMilliseconds = remainingDuration.asMilliseconds();
+  const reset = () => {
+    setEndTime(moment().add(timerDurationInMs, "milliseconds"))
+  };
 
-  const shouldReset = started && remainingMilliseconds === 0 && recuring;
-  const isDone = started && remainingMilliseconds === 0;
+  useEffect(() => {
+    if (recurring && remainingDurationInMs === 0) {
+      onDone()
+      reset()
+    } else if (remainingDurationInMs === 0) {
+      onDone()
+      stop()
+    }
+  }, [remainingDurationInMs]);
 
-  if (!shouldReset && isDone) {
-    doAfterRender(() => {
-      stop();
-      onDone();
-    });
-  }
+  const time = started
+    ? moment.utc(remainingDurationInMs)
+    : moment.utc(timerDurationInMs);
 
-  useInterval(
-    () => {
-      if (started && !isDone) {
-        setCount(count + 1000);
-      }
-      if (shouldReset) {
-        reset();
-        doAfterRender(() => {
-          onDone();
-        });
-      }
-    },
-    started ? 1000 : undefined
-  );
-
-  return {
-    time: moment.utc(remainingMilliseconds),
+    return {
+      time,
     start,
     stop,
     started,
     paused,
-    reset,
+    reset
   };
 };
