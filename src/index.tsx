@@ -13,6 +13,7 @@ export const useCountdown = (
   const { m = 0, s = 0, h = 0 } = input;
   const { onDone = () => true, recurring } = config;
   const timerDurationInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
+
   // timers are tied to re-render unfortunately in react native.
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -20,7 +21,6 @@ export const useCountdown = (
 
   const [started, setStarted] = useState(false);
   const [paused, setPaused] = useState(false);
-  // const [isDone, setIsDone] = useState(false);
 
   const [endTime, setEndTime] = useState<Moment>();
 
@@ -31,23 +31,21 @@ export const useCountdown = (
     setPaused(false);
     setEndTime(moment().add(timerDurationInMs, "milliseconds"));
   };
-
   const stop = () => {
     setStarted(false);
     setPaused(true);
   };
-
   const reset = () => {
-    setEndTime(moment().add(timerDurationInMs, "milliseconds"))
+    setEndTime(moment().add(timerDurationInMs, "milliseconds"));
   };
 
   useEffect(() => {
     if (recurring && remainingDurationInMs === 0) {
-      onDone()
-      reset()
+      onDone();
+      reset();
     } else if (remainingDurationInMs === 0) {
-      onDone()
-      stop()
+      onDone();
+      stop();
     }
   }, [remainingDurationInMs]);
 
@@ -55,12 +53,12 @@ export const useCountdown = (
     ? moment.utc(remainingDurationInMs)
     : moment.utc(timerDurationInMs);
 
-    return {
-      time,
+  return {
+    time,
     start,
     stop,
     started,
     paused,
-    reset
+    reset,
   };
 };
