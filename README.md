@@ -80,7 +80,7 @@ const App = () => {
 export default App;
 ```
 
-## recuring timer
+## recurring timer
 
 ```tsx
 import React from "react";
@@ -88,7 +88,7 @@ import React from "react";
 import { useCountdown } from "use-moment-countdown";
 
 const App = () => {
-  const { start, time } = useCountdown({ s: 30 }, {recuring: true});
+  const { start, time } = useCountdown({ s: 30 }, {recurring: true});
   return <div onClick={start}>{time.format("hh:mm:ss")}</div>;
 };
 
