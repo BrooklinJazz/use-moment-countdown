@@ -3,13 +3,25 @@ import React, { useState, useEffect } from "react";
 import moment, { Moment } from "moment";
 import { useInterval } from "./useInterval";
 
-export type CountdownInput = { m?: number; s?: number; h?: number } | undefined;
-export type CountdownConfig = { onDone?: () => any; recurring?: boolean };
+export type CountdownInput = Partial<{ m: number; s: number; h: number }>;
+export type CountdownConfig = Partial<{
+  onDone: () => any;
+  recurring: boolean;
+}>;
+
+export interface CountdownReturnValues {
+  time: Moment;
+  start: () => void;
+  stop: () => void;
+  started: boolean;
+  paused: boolean;
+  reset: () => void;
+}
 
 export const useCountdown = (
   input: CountdownInput = {},
   config: CountdownConfig = {}
-) => {
+): CountdownReturnValues => {
   const { m = 0, s = 0, h = 0 } = input;
   const { onDone = () => true, recurring } = config;
   const timerDurationInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
