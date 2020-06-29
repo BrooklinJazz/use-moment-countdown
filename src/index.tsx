@@ -37,25 +37,24 @@ export const useCountdown = (
 ) => {
   const { m = 0, s = 0, h = 0 } = input;
   const { onDone = () => true, recuring = false } = config;
-
   const [count, setCount] = React.useState(0);
   const [started, setStarted] = React.useState(false);
-  const [paused, setPaused] = React.useState(false)
+  const [paused, setPaused] = React.useState(false);
 
   const start = React.useCallback(() => {
-    setPaused(false)
-    setStarted(true)
-  }, [])
-  
+    setPaused(false);
+    setStarted(true);
+  }, []);
+
   const stop = React.useCallback(() => {
-    setPaused(true)
-    setStarted(false)
-  }, [])
+    setPaused(true);
+    setStarted(false);
+  }, []);
 
   const reset = React.useCallback(() => {
-    setPaused(false)
-    setCount(0)
-  }, [])
+    setPaused(false);
+    setCount(0);
+  }, []);
 
   const intervalInMs = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000;
   const diff = intervalInMs - count;
@@ -66,11 +65,7 @@ export const useCountdown = (
   const shouldReset = started && remainingMilliseconds === 0 && recuring;
   const isDone = started && remainingMilliseconds === 0;
 
-  if (shouldReset) {
-    doAfterRender(() => {
-      onDone();
-    });
-  } else if (isDone) {
+  if (!shouldReset && isDone) {
     doAfterRender(() => {
       stop();
       onDone();
@@ -84,6 +79,9 @@ export const useCountdown = (
       }
       if (shouldReset) {
         reset();
+        doAfterRender(() => {
+          onDone();
+        });
       }
     },
     started ? 1000 : undefined
@@ -95,6 +93,6 @@ export const useCountdown = (
     stop,
     started,
     paused,
-    reset
+    reset,
   };
 };

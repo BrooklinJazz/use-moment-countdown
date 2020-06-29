@@ -44,7 +44,7 @@ describe("useCountdown _ timer", () => {
     const { result} = renderHook(() => useCountdown({m: 1}))
     act(() => {
       result.current.start()
-      jest.runOnlyPendingTimers();
+      jest.advanceTimersByTime(1000);
     })
     expect(result.current.time.seconds()).toEqual(59)
   });
@@ -76,18 +76,21 @@ describe("useCountdown _ timer", () => {
     expect(fakeFn).toHaveBeenCalledTimes(1)
   });
 
-  test("timer _ recuring timer _ 1 s", () => {
+  test("timer _ recuring timer _ 1 s _ done function runs twice", () => {
     const fakeFn = jest.fn()
     const { result} = renderHook(() => useCountdown({s: 1}, {onDone: fakeFn, recuring: true}))
     act(() => {
       result.current.start()
-      expect(result.current.time.seconds()).toBe(1)
       expect(fakeFn).toHaveBeenCalledTimes(0)
-      jest.advanceTimersByTime(1001);
+      expect(result.current.time.seconds()).toBe(1)
+      jest.advanceTimersByTime(1000);
       expect(result.current.time.seconds()).toBe(0)
+      jest.advanceTimersByTime(1001);
       expect(fakeFn).toHaveBeenCalledTimes(1)
       jest.advanceTimersByTime(1000);
-      expect(result.current.time.seconds()).toBe(1)
+      expect(fakeFn).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(2000);
+      expect(fakeFn).toHaveBeenCalledTimes(2)
     })
   });
 
