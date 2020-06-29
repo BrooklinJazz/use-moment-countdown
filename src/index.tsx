@@ -56,7 +56,7 @@ export const useCountdown = (
   const rewind = () => {
     setEndTime(moment().add(timerDurationInMs, "milliseconds"));
   }
-  
+
   const reset = () => {
     setStarted(false)
     setPaused(false)
@@ -66,7 +66,7 @@ export const useCountdown = (
   useEffect(() => {
     if (recurring && remainingDurationInMs === 0) {
       onDone();
-      reset();
+      rewind();
     } else if (remainingDurationInMs === 0) {
       onDone();
       stop();
