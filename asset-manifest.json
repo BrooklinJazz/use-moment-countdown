@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/use-moment-countdown/static/js/main.5ddb289c.chunk.js",
-    "main.js.map": "/use-moment-countdown/static/js/main.5ddb289c.chunk.js.map",
+    "main.js": "/use-moment-countdown/static/js/main.d5f41d84.chunk.js",
+    "main.js.map": "/use-moment-countdown/static/js/main.d5f41d84.chunk.js.map",
     "runtime-main.js": "/use-moment-countdown/static/js/runtime-main.4e394d43.js",
     "runtime-main.js.map": "/use-moment-countdown/static/js/runtime-main.4e394d43.js.map",
     "static/js/2.4761ce68.chunk.js": "/use-moment-countdown/static/js/2.4761ce68.chunk.js",
     "static/js/2.4761ce68.chunk.js.map": "/use-moment-countdown/static/js/2.4761ce68.chunk.js.map",
     "index.html": "/use-moment-countdown/index.html",
-    "precache-manifest.5992b369afe63583b84972fbea02dc4a.js": "/use-moment-countdown/precache-manifest.5992b369afe63583b84972fbea02dc4a.js",
+    "precache-manifest.8e24cacb2bf12a81d40ede8649bbd25a.js": "/use-moment-countdown/precache-manifest.8e24cacb2bf12a81d40ede8649bbd25a.js",
     "service-worker.js": "/use-moment-countdown/service-worker.js",
     "static/js/2.4761ce68.chunk.js.LICENSE.txt": "/use-moment-countdown/static/js/2.4761ce68.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4e394d43.js",
     "static/js/2.4761ce68.chunk.js",
-    "static/js/main.5ddb289c.chunk.js"
+    "static/js/main.d5f41d84.chunk.js"
   ]
 }
