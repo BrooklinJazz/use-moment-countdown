@@ -18,7 +18,7 @@ const Container = ({children}) => (
 );
 
 const RecuringTimer = () => {
-  const { start, time, stop } = useCountdown(
+  const { start, time, stop, reset } = useCountdown(
     { s: 10 },
     {
       recurring: true,
@@ -34,12 +34,15 @@ const RecuringTimer = () => {
       <button style={{ marginTop: 20 }} onClick={stop}>
         Stop
       </button>
+      <button style={{ marginTop: 20 }} onClick={reset}>
+        Reset
+      </button>
     </Container>
   );
 };
 
 const Timer = () => {
-  const { start, time, stop } = useCountdown(
+  const { start, time, stop, reset } = useCountdown(
     { s: 10 },
     {
       onDone: () => console.warn("You can pass an onDone function like this!"),
@@ -53,6 +56,9 @@ const Timer = () => {
       </button>
       <button style={{ marginTop: 20 }} onClick={stop}>
         Stop
+      </button>
+      <button style={{ marginTop: 20 }} onClick={reset}>
+        Reset
       </button>
     </Container>
   );

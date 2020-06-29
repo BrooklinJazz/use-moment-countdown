@@ -37,6 +37,7 @@ export const useCountdown = (
 
   const start = () => {
     setStarted(true);
+    pausedRemainingDurationInMs.current = timerDurationInMs
     setEndTime(moment().add(timerDurationInMs, "milliseconds"));
   };
 
@@ -49,7 +50,16 @@ export const useCountdown = (
     pausedRemainingDurationInMs.current = remainingDurationInMs;
     setPaused(true);
   };
+
+  const resetOrRewind = () => paused ? reset() : rewind()
+
+  const rewind = () => {
+    setEndTime(moment().add(timerDurationInMs, "milliseconds"));
+  }
+  
   const reset = () => {
+    setStarted(false)
+    setPaused(false)
     setEndTime(moment().add(timerDurationInMs, "milliseconds"));
   };
 
@@ -79,6 +89,6 @@ export const useCountdown = (
     stop,
     started,
     paused,
-    reset,
+    reset: resetOrRewind,
   };
 };
